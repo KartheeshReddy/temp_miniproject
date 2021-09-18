@@ -31,7 +31,10 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             if (!(isset($_SESSION["user_loggedin"]))) {
                 echo '<li class="nav-item">
                     <a class="nav-link" href="login.php">Login</a>
-                </li>';
+                </li><li class="nav-item">
+                <a class="nav-link" href="signup.php">Sign Up</a>
+            </li>'
+                ;
             }
             else {
                 echo '<li class="nav-item">

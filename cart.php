@@ -17,6 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500&display=swap" rel="stylesheet"> -->
 
+    <script src="https://use.fontawesome.com/6a0c97f605.js"></script>
+
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="index.css">
 
@@ -30,6 +32,31 @@
 
     <?php include 'partials/_dbconnect.php'; ?>
     <?php include 'partials/_navbar.php'; ?>
+
+    <?php 
+
+    if (isset($_GET["inc"]) && $_GET["inc"]==true)
+    {
+        // get item id and increment quantity
+        $item_id = $_GET["item_id"];
+        $query = "update cart set quantity = quantity + 1 where item_id = '$item_id'";
+        $query_run = mysqli_query($con, $query);
+        header("Location: cart.php");
+        exit();
+    }
+    if (isset($_GET["dec"]) && $_GET["dec"]==true)
+    {
+        // get item id and decrement quantity
+        $item_id = $_GET["item_id"];
+        $query = "update cart set quantity = quantity - 1 where item_id = '$item_id'";
+        $query_run = mysqli_query($con, $query);
+        header("Location: cart.php");
+        exit();
+    }
+    
+
+    ?>
+
 
     <div class="container cart-items mt-5">
 
@@ -48,16 +75,15 @@
             $query = "select item_id from cart where item_id = '$item_id'";
             $query_run = mysqli_query($con, $query);
             if (mysqli_num_rows($query_run) != 1){
-                $query = "insert into cart values ('$item_id')";
+                $query = "insert into cart values ('$item_id', 1)";
                 $query_run = mysqli_query($con, $query);
             }
-
-
             header("Location: category.php?cat_id=".$cat_id."&added=true");
             exit();
         }
         $query = "select item_id from cart";
         $query_run = mysqli_query($con, $query);
+        $bill = 0;
         while ($row = mysqli_fetch_assoc($query_run)) 
         {
             $item_id = $row['item_id'];
@@ -67,6 +93,13 @@
             $item_name = $row2['item_name'];
             $item_image = $row2['item_image'];
             $item_price = $row2['item_price'];
+
+            $subquery = "select quantity from cart where item_id = '$item_id'";
+            $subquery_run = mysqli_query($con, $subquery);
+            $row2 = mysqli_fetch_assoc($subquery_run);
+            $item_quantity = $row2["quantity"];
+            $bill += $item_price*$item_quantity;
+
         echo '<div class="cart-item">
             <div class="cart-item-image">
                 <img width="150px" src="'.$item_image.'">
@@ -76,29 +109,31 @@
                 <p>Item Price: '.$item_price.'</p>
             </div>
             <div class="cart-item-quantity">
-                <p>Quantity: 1</p>
+                <a href="cart.php?item_id='.$item_id.'&dec=true" id="itemno-'.$item_id.'" name="cart_inc"><img style="width:15px" src="images/minus.png"></a>
+                <span>'.$item_quantity.'</span>
+                <a href="cart.php?item_id='.$item_id.'&inc=true" id="itemno-'.$item_id.'" name="cart_dec"><img style="width:15px" src="images/plus.png"></a>
             </div>
             <div class="cart-item-total">
-                <p>Total: '.$item_price.'</p>
+                <p>Total: '.$item_price*$item_quantity.'</p>
             </div>
         </div>';
         }
 
         // calculating cart total
-        $query = "select item_id from cart";
-        $query_run = mysqli_query($con, $query);
-        $sum = 0;
-        while ($row = mysqli_fetch_assoc($query_run)) {
+        // $query = "select item_id from cart";
+        // $query_run = mysqli_query($con, $query);
+        // $sum = 0;
+        // while ($row = mysqli_fetch_assoc($query_run)) {
             
-            $item_id = $row['item_id'];
-            // echo $item_id;
-            $query2 = "select item_price from items where item_id = '$item_id'";
-            $query_run2 = mysqli_query($con, $query2);
-            $row2 = mysqli_fetch_assoc($query_run2);
-            $sum += $row2['item_price'];
-        }
+        //     $item_id = $row['item_id'];
+        //     // echo $item_id;
+        //     $query2 = "select item_price from items where item_id = '$item_id'";
+        //     $query_run2 = mysqli_query($con, $query2);
+        //     $row2 = mysqli_fetch_assoc($query_run2);
+        //     $sum += $row2['item_price'];
+        // }
         
-        echo '<h3 style="color: green; float:right;">Total Bill: '.$sum.'</h3>';
+        echo '<h3 style="color: green; float:right;">Total Bill: '.$bill.'</h3>';
 
 
         ?>
