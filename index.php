@@ -23,6 +23,9 @@
     <!-- Link to external js -->
     <!-- <script src="index.js"></script> -->
 
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/6a0c97f605.js"></script>
+
 </head>
 
 <body>

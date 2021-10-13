@@ -34,12 +34,13 @@
     <?php include 'partials/_navbar.php'; ?>
 
     <?php 
-
+    // echo $_SESSION["user_id"];
     if (isset($_GET["inc"]) && $_GET["inc"]==true)
     {
         // get item id and increment quantity
+        $user_id = $_SESSION["user_id"];
         $item_id = $_GET["item_id"];
-        $query = "update cart set quantity = quantity + 1 where item_id = '$item_id'";
+        $query = "update cart set quantity = quantity + 1 where item_id = '$item_id' and user_id = '$user_id'";
         $query_run = mysqli_query($con, $query);
         header("Location: cart.php");
         exit();
@@ -47,9 +48,15 @@
     if (isset($_GET["dec"]) && $_GET["dec"]==true)
     {
         // get item id and decrement quantity
+        $user_id = $_SESSION["user_id"];
         $item_id = $_GET["item_id"];
-        $query = "update cart set quantity = quantity - 1 where item_id = '$item_id'";
+        $query = "update cart set quantity = quantity - 1 where item_id = '$item_id' and user_id = '$user_id'";
         $query_run = mysqli_query($con, $query);
+
+        // check if quantity is 0, if yes delete from cart
+        $query = "delete from cart where quantity = 0";
+        $query_run = mysqli_query($con, $query);        
+
         header("Location: cart.php");
         exit();
     }
@@ -61,7 +68,8 @@
     <div class="container cart-items mt-5">
 
         <?php 
-
+        $user_id = $_SESSION["user_id"];
+        // echo $user_id;
         if (isset($_GET['item_id'])) {
             
             // For category id
@@ -72,17 +80,32 @@
             $cat_id = $row['item_cat_id'];
 
             // inserting into cart (retrieving item id)
-            $query = "select item_id from cart where item_id = '$item_id'";
+            $query = "select item_id, quantity from cart where item_id = '$item_id' and user_id = '$user_id'";
             $query_run = mysqli_query($con, $query);
-            if (mysqli_num_rows($query_run) != 1){
-                $query = "insert into cart values ('$item_id', 1)";
+            $row = mysqli_fetch_assoc($query_run);
+            
+            if ($row == NULL)
+            {
+                $query = "insert into cart values ('$item_id', 1, '$user_id')";
                 $query_run = mysqli_query($con, $query);
             }
+            else if ($row["quantity"] == 0)
+            {
+                $query = "update cart set quantity = quantity + 1 where item_id = '$item_id' and user_id = '$user_id'";
+                $query_run = mysqli_query($con, $query);
+            }
+
             header("Location: category.php?cat_id=".$cat_id."&added=true");
             exit();
         }
-        $query = "select item_id from cart";
+        $query = "select item_id from cart where user_id = '$user_id'";
         $query_run = mysqli_query($con, $query);
+        if (mysqli_num_rows($query_run) == 0)
+        {
+            // $isempty = true;
+            echo '<center><h1>Your cart is empty</h1></center>';
+            exit();
+        }
         $bill = 0;
         while ($row = mysqli_fetch_assoc($query_run)) 
         {
@@ -94,11 +117,15 @@
             $item_image = $row2['item_image'];
             $item_price = $row2['item_price'];
 
-            $subquery = "select quantity from cart where item_id = '$item_id'";
+            $subquery = "select quantity from cart where item_id = '$item_id' and user_id = '$user_id'";
             $subquery_run = mysqli_query($con, $subquery);
             $row2 = mysqli_fetch_assoc($subquery_run);
             $item_quantity = $row2["quantity"];
-            $bill += $item_price*$item_quantity;
+            // if ($item_quantity == 0)
+            // {
+            //     continue;
+            // }
+            $bill += $item_price * $item_quantity;
 
         echo '<div class="cart-item">
             <div class="cart-item-image">
@@ -114,8 +141,9 @@
                 <a href="cart.php?item_id='.$item_id.'&inc=true" id="itemno-'.$item_id.'" name="cart_dec"><img style="width:15px" src="images/plus.png"></a>
             </div>
             <div class="cart-item-total">
-                <p>Total: '.$item_price*$item_quantity.'</p>
+                <p>Total: '.$item_price * $item_quantity.'</p>
             </div>
+
         </div>';
         }
 
@@ -132,8 +160,9 @@
         //     $row2 = mysqli_fetch_assoc($query_run2);
         //     $sum += $row2['item_price'];
         // }
-        
+        $_SESSION["bill"] = $bill;
         echo '<h3 style="color: green; float:right;">Total Bill: '.$bill.'</h3>';
+        echo '<a href="payment.php">Go to Payment</a>';
 
 
         ?>
