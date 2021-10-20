@@ -39,21 +39,28 @@
         $user_id = $_SESSION["user_id"];
         $user_name = $_SESSION["username"];
         $query = "select * from cart where user_id = '$user_id'";
-        $items = "";
+        //$items = "";
         $query_run = mysqli_query($con, $query);
+        $order_id = rand();
+        $bill = $_SESSION["bill"];
+        date_default_timezone_set('Asia/Kolkata');
+$currentTime = date( 'd-m-Y h:i:s A', time () );
+// echo $currentTime;
         while ($row = mysqli_fetch_assoc($query_run))
         {
             $item_id = $row["item_id"];
+            $quantity=$row['quantity'];
+
             $query2 = "select item_name from items where item_id = '$item_id'";
             $query_run2 = mysqli_query($con, $query2);
             $row2 = mysqli_fetch_assoc($query_run2);
             $item_name = $row2["item_name"];
-            $items = $items . $item_name . " " . $row["quantity"] . "\n";
+            //$items = $items . $item_name . " " . $row["quantity"] . "\n";
+            $query3 = "insert into orders values ('$currentTime','$order_id', '$user_name', '$item_name','$quantity', '$bill')";
+            $query_run3 = mysqli_query($con, $query3);
         }
-        $order_id = rand();
-        $bill = $_SESSION["bill"];
-        $query = "insert into orders (order_id, user_name, items, total_bill) values ('$order_id', '$user_name', '$items', '$bill')";
-        $query_run = mysqli_query($con, $query);
+        
+        
 
         // clear the cart
         $query = "delete from cart where user_id = '$user_id'";

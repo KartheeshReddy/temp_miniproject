@@ -25,7 +25,7 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form> -->
-
+            
             <ul class="navbar-nav mb-2 mb-lg-0">';
 
             if (!(isset($_SESSION["user_loggedin"]))) {
@@ -41,6 +41,7 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
             if (isset($_SESSION["user_loggedin"]))
             {
+                echo '<a href="customer_orders.php" class="nav-link">View Orders</a>';
                 echo '<li class="nav-item">
                     <a class="nav-link" href="cart.php"><img id="cart" src="images/cart.jpg"></a>
                 </li>';

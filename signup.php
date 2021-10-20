@@ -59,7 +59,7 @@ if (isset($_SESSION['admin_logged_in'])) {
             if ($row != NULL && $row['user_email'] == $email) {
                 echo "<script>alert('Email already exits!')</script>";
             } else {
-                $query = "INSERT INTO `users` (`user_name`, `user_email`, `user_pwd`) VALUES ('$username', '$email', '$password')";
+                $query = "insert into users(`user_name`, `user_email`, `user_pwd`) values('$username', '$email', '$password')";
                 $query_run = mysqli_query($con, $query);
                 header("Location: login.php");
                 exit();
