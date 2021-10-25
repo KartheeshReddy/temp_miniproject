@@ -10,7 +10,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <!-- Change font -->
     <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,6 +27,7 @@
     <style>
         table{
             text-align:center;
+            /* width: 100%; */
         }
         table,td,th,tr{
             border: 2px solid;
@@ -35,6 +36,8 @@
             /* width: 50%; */
             margin: auto;
         }
+        /* tr:nth-child(even){background-color: cyan;}
+        tr:nth-child(odd){background-color: violet;} */
     </style>
 </head>
 
@@ -53,6 +56,7 @@
         <th>Item</th>
         <th>Quantity</th>
         <th>Total Bill</th>
+        <th colspan='3'>Status<th>
     </tr>
     <?php
     $user_name=$_SESSION['username'];
@@ -84,7 +88,10 @@
             <td rowspan='$no_of_rows'>".$order_id."</td>
             <td>".$item."</td>
             <td>".$quantity."</td>
-            <td rowspan='$no_of_rows'>".$bill."</td>
+            <td rowspan='$no_of_rows'><i class='fas fa-rupee-sign'></i>".$bill."</td>
+            <td rowspan='$no_of_rows'><button type='button' class='btn btn-outline-primary'>Shipped</button></td>
+            <td rowspan='$no_of_rows'><button type='button' class='btn btn-outline-secondary'>On The Way</button></td>
+            <td rowspan='$no_of_rows'><button type='button' class='btn btn-outline-success'>Delivered</button></td>
         </tr>";
         }
         else 

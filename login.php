@@ -55,6 +55,7 @@
         if ($row!=NULL) {
             $_SESSION["user_id"] = $row["user_id"];
             $_SESSION["username"] = $row["user_name"];
+            $_SESSION["email"]=$row["user_email"];
             $_SESSION["user_loggedin"] = true;
             header('location:index.php');
             exit();

@@ -60,8 +60,14 @@
                         <h5 class="card-title">'.$item_name.'</h5>
                         <h5><i class="fa fa-inr" aria-hidden="true"></i> '.$price.'</h5>
                     </div>
-                    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>
-                </div>
+                    ';
+                
+                if(isset($_SESSION["user_loggedin"]))
+
+                    echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>';
+                else
+                echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn" disabled>Add to Cart</button>';
+                    echo '</div>
             </div>';
             }
             
