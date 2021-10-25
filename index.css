@@ -1,0 +1,79 @@
+/* entire website */
+*{
+    font-family: Verdana, cursive, 'Baloo Bhai 2';
+}
+
+/* navbar */
+#search-input {
+    width: 650px;
+}
+
+/* cart symbol */
+#cart {
+    width:20px;
+}
+
+.item-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-btn {
+    width: 100%;
+}
+
+/* Div containing all categories */
+.category, .items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-around;
+}
+
+/* Each category */
+.card {
+    transition: 0.5s all ease-in-out;
+    border-radius: 10px;
+    border: 1px solid black; 
+    cursor: pointer;
+}
+
+.item {
+    cursor: none;
+}
+
+.card:hover {
+    transform: scale(1.08);
+}
+
+.card-body {
+    border-radius: 0px 0px 10px 10px;
+}
+
+.card-img-top {
+    border-radius: 10px 10px 0 0;
+}   
+
+
+
+/* cart page */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid black;
+    padding: 5px;
+    align-items: center;
+    margin: 5px 0;
+}
+
+/* Responsive design */
+@media (max-width: 1250px) {
+    #search-input {
+        width: 350px;
+    }
+}
+
+@media (max-width: 500px) {
+    #search-input {
+        width: 200px;
+    }
+}

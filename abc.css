@@ -1,0 +1,13 @@
+body{
+    font-family: verdana;
+} 
+#signin_form{
+    width: 30%;
+    margin: auto;
+    background-color: gray;
+    margin:200px auto;
+    text-align: center;
+}
+input{
+    margin: 2px;
+}

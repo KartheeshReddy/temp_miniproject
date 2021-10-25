@@ -1,0 +1,29 @@
+.card{
+    position: relative;
+  /* text-align: center;
+  color: black; */
+}
+.fa-times-circle{
+    position: absolute;
+  top: 8px;
+  right: 16px;
+  color: red;
+  
+}
+.add-cat{
+    background-color: black;
+}
+.plus-icon{
+    margin:auto;
+    margin-top: 50px;
+    margin-bottom:50px;
+}
+/* .fa-times-circle:hover{
+  background-color: cyan;
+} */
+.plus-card{
+  background-color: grey;
+}
+/* .fa-star{
+  color: gold;
+} */
