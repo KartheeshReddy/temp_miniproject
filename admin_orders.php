@@ -20,14 +20,14 @@
     <script src="https://use.fontawesome.com/6a0c97f605.js"></script>
 
     <!-- Link to external CSS -->
-    <!-- <link rel="stylesheet" href="index.css"> -->
+    <link rel="stylesheet" href="index.css">
 
     <!-- Link to external js -->
     <!-- <script src="index.js"></script> -->
     <style>
         table{
             text-align:center;
-            /* width: 100%; */
+            width: 100%;
         }
         table,td,th,tr{
             border: 2px solid;
@@ -54,11 +54,11 @@
             $order_id=$_GET['order_id'];
             $status=$_GET['status'];
 
-            echo $order_id,$status;
+            //echo $order_id,$status;
 
             $query="update orders set status='$status' where order_id='$order_id'";
             $query_run=mysqli_query($con,$query);
-            //header('location:admin_orders.php');
+            header('location:admin_orders.php');
         }
     ?>
 
@@ -117,10 +117,35 @@
             <td><?php echo $item ;?></td>
             <td><?php echo $quantity ;?></td>
             <td rowspan=<?php echo $no_of_rows  ;?>><i class='fas fa-rupee-sign'></i><?php echo $bill ;?></td>
-            <td rowspan=<?php echo $no_of_rows  ;?>><button type='button' name='shipped' id='<?php echo $order_id_s; ?>' onclick=changeStatus(id,name,<?php echo  $order_id_s; ?>) class='btn btn-outline-primary'>Shipped</button></td>
-            <td rowspan=<?php echo $no_of_rows  ;?>><button type='button' name='onTheWay' id='<?php echo $order_id_o; ?>' onclick=changeStatus(id,name,<?php echo $order_id_o; ?>) class='btn btn-outline-primary'>On The Way</button></td>
-            <td rowspan=<?php echo $no_of_rows  ;?>><button type='button' name='delivered' id='<?php echo $order_id_d; ?>' onclick=changeStatus(id,name,<?php echo $order_id_d ;?>) class='btn btn-outline-primary'>Delivered</button></td>
-            <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $status ?></td>
+            <?php
+            echo "<td rowspan='$no_of_rows'><button name='shipped' id='$order_id_s' onclick=changeStatus(id,name,'$order_id_s') class='btn btn-outline-primary'>Shipped</button></td>";
+            
+            echo "<td rowspan='$no_of_rows'><button name='onTheWay' id='$order_id_o' onclick=changeStatus(id,name,'$order_id_s') class='btn btn-outline-secondary'>On The Way</button></td>";
+            
+            echo "<td rowspan='$no_of_rows'><button name='delivered' id='$order_id_d' onclick=changeStatus(id,name,'$order_id_s') class='btn btn-outline-success'>Delivered</button></td>";
+            
+            if($status=='shipped')
+            {
+            ?>
+                <td rowspan=<?php echo $no_of_rows  ;?> color='cyan'><?php echo 'Shipped'; ?></td>
+            <?php
+            }
+            if($status=='onTheWay')
+            {
+            ?>
+                <td rowspan=<?php echo $no_of_rows  ;?> color='gray'><p color='pink'><?php echo 'On The Way'; ?></p></td>
+            <?php
+            }
+            if($status=='delivered')
+            {
+            ?>
+
+                <td rowspan=<?php echo $no_of_rows  ;?> color='lightgreen'><?php echo 'Delivered'; ?></td>
+            <?php
+            }
+            ?>
+            
+            <!-- <td rowspan=<?php //echo $no_of_rows  ;?>><?php //echo $status ?></td> -->
             </tr>
         <?php
         }
@@ -150,11 +175,11 @@
         
     function changeStatus(id,status,order_id) {
         
-        // var modified_order_id = order_id.substring(0, order_id.length - 1);
-        console.log(status+" "+order_id);
+         var modified_order_id = order_id.substring(0, order_id.length - 1);
+        console.log(status+" "+modified_order_id);
         var btn = document.getElementById(id);
         btn.addEventListener('click', function() {
-            // window.location.href = `admin_orders.php?changeStatus=true&order_id=${modified_order_id}&status=${status}`;
+            window.location.href = `admin_orders.php?changeStatus=true&order_id=${modified_order_id}&status=${status}`;
         })
     }
     </script>
@@ -167,3 +192,6 @@
             <td rowspan='$no_of_rows'><button type='button' name='onTheWay' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-secondary'>On The Way</button></td>
             <td rowspan='$no_of_rows'><button type='button' name='delivered' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-success'>Delivered</button></td>
             -->
+
+            <!-- <td rowspan=<?php //echo $no_of_rows  ;?>><button name='onTheWay' id=<?php //echo $order_id_o; ?> onclick=changeStatus(id,name,<?php //echo $order_id_o; ?>) class='btn btn-outline-primary'>On The Way</button></td>
+            <td rowspan=<?php// echo $no_of_rows  ;?>><button name='delivered' id=<?php //echo $order_id_d; ?> onclick=changeStatus(id,name,<?php //echo $order_id_d ;?>) class='btn btn-outline-primary'>Delivered</button></td> -->
