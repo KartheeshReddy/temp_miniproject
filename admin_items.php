@@ -105,7 +105,7 @@
     <script>
     function makeChanges(item_id) {
         
-        window.location.href = `admin_items.php?cat_id=${catid}?del_item=${item_id}`;
+        window.location.href = `admin_items.php?cat_id=${catid}&del_item=${item_id}`;
         
     }
     function delItemFunc(catid,item_id){

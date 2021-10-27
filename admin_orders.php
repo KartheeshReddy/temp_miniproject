@@ -20,7 +20,7 @@
     <script src="https://use.fontawesome.com/6a0c97f605.js"></script>
 
     <!-- Link to external CSS -->
-    <link rel="stylesheet" href="index.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
 
     <!-- Link to external js -->
     <!-- <script src="index.js"></script> -->
@@ -58,7 +58,7 @@
 
             $query="update orders set status='$status' where order_id='$order_id'";
             $query_run=mysqli_query($con,$query);
-            header('location:customer_orders.php');
+            //header('location:admin_orders.php');
         }
     ?>
 
@@ -66,6 +66,7 @@
     <div id="orders-table">
     <table align="center">
     <tr>
+        <th>Username</th>
         <th>Date-Time</th>
         <th>Order ID</th>
         <th>Item</th>
@@ -75,17 +76,23 @@
         <th>Status</th>
     </tr>
     <?php
-    $user_name=$_SESSION['username'];
+    //$user_name=$_SESSION['username'];
     $orders_array = array();
     
 
-    $query="select * from orders where user_name='$user_name'";
+    //$query="select * from orders where user_name='$user_name'";
+    $query="select * from orders";
     $query_run=mysqli_query($con,$query);
     
 
     while($row=mysqli_fetch_assoc($query_run))
     {
+        $user_name=$row['user_name'];
         $order_id=$row['order_id'];
+        $order_id_s = (string)$order_id . "s";
+        $order_id_o = (string)$order_id . "o";
+        $order_id_d = (string)$order_id . "d";
+        
         $item=$row['item'];
         $quantity=$row['quantity'];
         $bill=$row['total_bill'];
@@ -101,46 +108,62 @@
         if (!isset($orders_array[$order_id]))
         {
             $orders_array[$order_id] = 1;
-            echo "<tr>
-            <td rowspan='$no_of_rows'>".$currentTime."</td>
-            <td rowspan='$no_of_rows'>".$order_id."</td>
-            <td>".$item."</td>
-            <td>".$quantity."</td>
-            <td rowspan='$no_of_rows'><i class='fas fa-rupee-sign'></i>".$bill."</td>
-            <td rowspan='$no_of_rows'><button type='button' name='shipped' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-primary'>Shipped</button></td>
-            <td rowspan='$no_of_rows'><button type='button' name='onTheWay' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-secondary'>On The Way</button></td>
-            <td rowspan='$no_of_rows'><button type='button' name='delivered' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-success'>Delivered</button></td>
-            <td rowspan='$no_of_rows'>".$status."</td>
-        </tr>";
+            ?>
+             
+            <tr>
+            <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $user_name; ?></td>
+            <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $currentTime; ?></td>
+            <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $order_id ;?></td>
+            <td><?php echo $item ;?></td>
+            <td><?php echo $quantity ;?></td>
+            <td rowspan=<?php echo $no_of_rows  ;?>><i class='fas fa-rupee-sign'></i><?php echo $bill ;?></td>
+            <td rowspan=<?php echo $no_of_rows  ;?>><button type='button' name='shipped' id='<?php echo $order_id_s; ?>' onclick=changeStatus(id,name,<?php echo  $order_id_s; ?>) class='btn btn-outline-primary'>Shipped</button></td>
+            <td rowspan=<?php echo $no_of_rows  ;?>><button type='button' name='onTheWay' id='<?php echo $order_id_o; ?>' onclick=changeStatus(id,name,<?php echo $order_id_o; ?>) class='btn btn-outline-primary'>On The Way</button></td>
+            <td rowspan=<?php echo $no_of_rows  ;?>><button type='button' name='delivered' id='<?php echo $order_id_d; ?>' onclick=changeStatus(id,name,<?php echo $order_id_d ;?>) class='btn btn-outline-primary'>Delivered</button></td>
+            <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $status ?></td>
+            </tr>
+        <?php
         }
         else 
         {
-            echo "<tr>
-            <td>".$item."</td>
-            <td>".$quantity."</td>
-            </tr>";
-        }
+        ?>
+            <tr>
+            <td><?php echo  $item ; ?></td>
+            <td><?php echo  $quantity ;?></td>
+            </tr>
+        <?php 
 
-        
+        }
         // echo "<tr><td >".$currentTime."</td><td>".$order_id."</td><td>".$item."</td><td>".$quantity."</td><td>".$bill."</td></tr>";
         
+    
     }
-    echo "</table>";
     
     ?>
+
+    
+    </table>
     </div>
 
 
     <script>
         
     function changeStatus(id,status,order_id) {
-        //console.log(status+" "+order_id);
+        
+        // var modified_order_id = order_id.substring(0, order_id.length - 1);
+        console.log(status+" "+order_id);
         var btn = document.getElementById(id);
         btn.addEventListener('click', function() {
-            window.location.href = `customer_orders.php?changeStatus=true&order_id=${order_id}&status=${status}`;
+            // window.location.href = `admin_orders.php?changeStatus=true&order_id=${modified_order_id}&status=${status}`;
         })
     }
     </script>
 </body>
 
 </html>
+
+<!-- 
+<td rowspan='$no_of_rows'><button type='button' name='shipped' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-primary'>Shipped</button></td>
+            <td rowspan='$no_of_rows'><button type='button' name='onTheWay' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-secondary'>On The Way</button></td>
+            <td rowspan='$no_of_rows'><button type='button' name='delivered' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-success'>Delivered</button></td>
+            -->

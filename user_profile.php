@@ -56,7 +56,7 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-12"><label class="labels">Name:</label><input type="text" name="username" class="form-control" value='.$username.'></div>
+                    <div class="col-md-12"><label class="labels">Name:</label><input type="text" name="username" class="form-control" value='.$username.' disabled></div>
                     </div>
                 <div class="row mt-3">
                     <div class="col-md-12"><label class="labels">Phone Number:</label><input type="text" name="phone" class="form-control"  value='.$phone.'></div>
@@ -94,16 +94,20 @@
     if(isset($_POST['submit_btn']))
     {
         
+        
         $user_id=$_SESSION["user_id"];
         $username=$_POST['username'];
         $phone=$_POST['phone'];
         $address=$_POST['address'];
-        echo $username." ".$phone." ".$address;
-        $query1="update user_details set user_phone='$phone' where user_id='$user_id'";
-        $query_run1=mysqli_query($con,$query1);
+        
+        //echo $user_id." ".$username." ".$phone." ".$address;
+        $query="update user_details set user_phone='$phone',address='$address' where user_id='$user_id'";
+        $query_run=mysqli_query($con,$query);
 
-        $query2="update users set user_name='$username' where user_id='$user_id'";
-        $query_run2=mysqli_query($con,$query2);
+        // $query2="update users set user_name='$username' where user_id='$user_id'";
+        // $query_run2=mysqli_query($con,$query2);
+        echo "hello";
+
         header('location:index.php');
 
     }
