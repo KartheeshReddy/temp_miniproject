@@ -43,13 +43,25 @@
         $query_run=mysqli_query($con,$query);
         $row=mysqli_fetch_assoc($query_run);
         $cat_name=$row['cat_name'];
+        $item_price='';
+        $item_name='';
+        if(isset($_GET['modify_item']))
+        {
+            $item_id=$_GET['item_id'];
+            $query="select * from items where item_id='$item_id'";
+            $query_run=mysqli_query($con,$query);
+            $row=mysqli_fetch_assoc($query_run);
+            $item_name=$row['item_name'];
+            $item_price=$row['item_price'];
+            //$item_image=$row['item_image'];
+        }
 
         echo "<h1>Add an item for $cat_name</h1>";
     ?>
     
     <form action="" method="POST" enctype="multipart/form-data">
-        Item Name: <input type="text" name="item-name" required><br><br>
-        Item Price: <input type="text" name="item-price" required><br><br>
+        Item Name: <input type="text" name="item-name" required value=<?php echo $item_name; ?>><br><br>
+        Item Price: <input type="text" name="item-price" required value=<?php echo $item_price; ?>><br><br>
         Upload an image: <input type="file" name="fileToUpload" accept=".jpg,.jpeg,.png" required><br>
         <input type="submit" name="add-item-btn" class="btn btn-primary">
 
@@ -57,6 +69,7 @@
         
     </form>
     <?php
+        
         if(isset($_POST['add-item-btn']))
         {
             $item_name=$_POST['item-name'];
@@ -68,8 +81,12 @@
             $target_file=$directory.$file_name;
 
             move_uploaded_file($file_temp,$target_file);
+            if(isset($_GET['modify_item']))
+                $query="update items set item_name='$item_name',item_price='$item_price',item_image='$target_file' where item_id='$item_id'";
+            else
+                $query="insert into items(item_name,item_price,item_cat_id,item_image) values('$item_name','$item_price','$cat_id','$target_file')";
             
-            $query="insert into items(item_name,item_price,item_cat_id,item_image) values('$item_name','$item_price','$cat_id','$target_file')";
+            
             $query_run=mysqli_query($con,$query);
             //echo $cat_id;
             header("location: admin_items.php?cat_id=".$cat_id."");

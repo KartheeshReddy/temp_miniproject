@@ -85,7 +85,7 @@
                         '.$rating.'<i class="fas fa-star" style="color:gold;"></i>
                         <span>
                     </div>
-                    <button id="item-'.$item_id.'" onclick="makeChanges('.$item_id.')" class="btn btn-secondary cart-btn" disabled>Make Changes</button>
+                    <button id="item-'.$item_id.'" onclick="makeChanges('.$cat_id.','.$item_id.')" class="btn btn-secondary cart-btn">Make Changes</button>
                 </div>
             </div>';
             }
@@ -103,9 +103,9 @@
 
 
     <script>
-    function makeChanges(item_id) {
-        
-        window.location.href = `admin_items.php?cat_id=${catid}&del_item=${item_id}`;
+    function makeChanges(catid,item_id) {
+        //console.log(item_id);
+        window.location.href = `admin_item_page.php?modify_item=true&cat_id=${catid}&item_id=${item_id}`;
         
     }
     function delItemFunc(catid,item_id){
