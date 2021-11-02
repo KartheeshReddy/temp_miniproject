@@ -51,12 +51,13 @@ $currentTime = date( 'd-m-Y h:i:s A', time () );
             $item_id = $row["item_id"];
             $quantity=$row['quantity'];
 
+            //echo $item_id." ".$quantity."\n";
             $query2 = "select item_name from items where item_id = '$item_id'";
             $query_run2 = mysqli_query($con, $query2);
             $row2 = mysqli_fetch_assoc($query_run2);
             $item_name = $row2["item_name"];
             //$items = $items . $item_name . " " . $row["quantity"] . "\n";
-            $query3 = "insert into orders values ('$currentTime','$order_id', '$user_name', '$item_name','$quantity', '$bill')";
+            $query3 = "insert into orders values ('$currentTime','$order_id', '$user_name', '$item_name','$quantity', '$bill','')";
             $query_run3 = mysqli_query($con, $query3);
         }
         

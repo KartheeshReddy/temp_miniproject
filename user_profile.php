@@ -45,40 +45,56 @@
         $phone=$row["user_phone"];
         $address=$row["address"];
         // action="user_profile.php"
-    echo'
-    <form  method="POST">
-    <div class="container rounded bg-white mt-5 mb-5">
-    <div class="row">
+    // echo'
+    // <form  method="POST">
+    // <div class="container rounded bg-white mt-5 mb-5">
+    // <div class="row">
         
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-12"><label class="labels">Name:</label><input type="text" name="username" class="form-control" value='.$username.' disabled></div>
-                    </div>
-                <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Phone Number:</label><input type="text" name="phone" class="form-control"  value='.$phone.'></div>
-                    <div class="col-md-12"><label class="labels">Email ID:</label><input type="text" class="form-control"  value='.$email.' disabled></div>
+    //     <div class="col-md-5 border-right">
+    //         <div class="p-3 py-5">
+    //             <div class="d-flex justify-content-between align-items-center mb-3">
+    //                 <h4 class="text-right">Profile Settings</h4>
+    //             </div>
+    //             <div class="row mt-2">
+    //                 <div class="col-md-12"><label class="labels">Name:</label><input type="text"  class="form-control" value='.$username.' disabled></div>
+    //                 </div>
+    //             <div class="row mt-3">
+    //                 <div class="col-md-12"><label class="labels">Phone Number:</label><input type="text" name="phone" class="form-control"  value='.$phone.'></div>
+    //                 <div class="col-md-12"><label class="labels">Email ID:</label><input type="text" class="form-control"  value='.$email.' disabled></div>
                     
-                </div>
+    //             </div>
                 
-                <div class="mt-5 "><input class="btn btn-primary profile-button" name="submit_btn" type="submit" value="Save Changes"></div>
-            </div>
-        </div>
-        <div class="col-md-4">
+    //             <div class="mt-5 "><input class="btn btn-primary profile-button" name="submit_btn" type="submit" value="Save Changes"></div>
+    //         </div>
+    //     </div>
+    //     <div class="col-md-4">
             
-            <div class="p-4 py-5">
-            <div class="form-group">
+    //         <div class="p-4 py-5">
+    //         <div class="form-group">
             
-            <div class="col-md-12"><label class="labels">Shipping Address:</label><input type="text" name="address" class="form-control"  value='.$address.'></div>
+    //         <div class="col-md-12"><label class="labels">Shipping Address:</label><input type="text" name="address" class="form-control"  value='.$address.'></div>
                     
-            </div>   
-            </div>  
+    //         </div>  
+             
+    //         </div>  
+    //         <div class="mt-5 "><input class="btn btn-primary profile-button" name="submit_btn" type="submit" value="Save Changes"></div>
             
-        </div>
-    </div>
+    //     </div>
+    // </div>
+    // </form>';
+
+
+    echo'
+    <form action="user_profile.php" method="POST">
+    
+            <h1 >Profile Settings</h4>            
+            <div >Name:<input type="text"   value='.$username.' disabled></div><br>
+            <div >Phone Number:<input type="text" name="phone"   value='.$phone.'></div><br>
+            <div >Email ID:<input type="text"  value='.$email.' disabled></div><br>         
+            <div >Shipping Address:<input type="text" name="address" value='.$address.'></div>
+               
+            <div ><input class="btn btn-primary profile-button" name="submit_btn" type="submit" value="Save Changes"></div>
+            </div>
     </form>';
 
     ?>
@@ -96,11 +112,11 @@
         
         
         $user_id=$_SESSION["user_id"];
-        $username=$_POST['username'];
+        //$username=$_POST['username'];
         $phone=$_POST['phone'];
         $address=$_POST['address'];
         
-        //echo $user_id." ".$username." ".$phone." ".$address;
+        echo $user_id." ".$username." ".$phone." ".$address;
         $query="update user_details set user_phone='$phone',address='$address' where user_id='$user_id'";
         $query_run=mysqli_query($con,$query);
 
@@ -108,7 +124,7 @@
         // $query_run2=mysqli_query($con,$query2);
         echo "hello";
 
-        header('location:index.php');
+    //    header('location:index.php');
 
     }
 

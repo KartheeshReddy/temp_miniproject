@@ -15,9 +15,9 @@
     
   </head>
 <body>
-    <?php include 'sidebar.php'; ?>
+    <?php //include 'sidebar.php'; ?>
     <?php include 'partials/_dbconnect.php'; ?>
-    <?php //include 'partials/_navbar.php'; ?>
+    <?php include 'partials/_navbar.php'; ?>
 
 
   <?php

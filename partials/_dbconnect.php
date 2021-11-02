@@ -1,9 +1,9 @@
 <?php
 // Connect to the database
-$servername = "localhost";
+$servername = "localhost:3307";
 $username = "root";
 $password = "";
-$database = "miniproject";
+$database = "mini-project";
 $con = mysqli_connect($servername, $username, $password, $database);
 
 

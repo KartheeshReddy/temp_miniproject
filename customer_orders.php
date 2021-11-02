@@ -27,7 +27,7 @@
     <style>
         table{
             text-align:center;
-            /* width: 100%; */
+             width: 100%; 
         }
         table,td,th,tr{
             border: 2px solid;
@@ -71,7 +71,7 @@
         <th>Item</th>
         <th>Quantity</th>
         <th>Total Bill</th>
-        <th colspan='3'>Keep status<th>
+        
         <th>Status</th>
     </tr>
     <?php
@@ -107,9 +107,6 @@
             <td>".$item."</td>
             <td>".$quantity."</td>
             <td rowspan='$no_of_rows'><i class='fas fa-rupee-sign'></i>".$bill."</td>
-            <td rowspan='$no_of_rows'><button type='button' name='shipped' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-primary'>Shipped</button></td>
-            <td rowspan='$no_of_rows'><button type='button' name='onTheWay' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-secondary'>On The Way</button></td>
-            <td rowspan='$no_of_rows'><button type='button' name='delivered' id=".$order_id." onclick='changeStatus(id,name,".$order_id.")' class='btn btn-outline-success'>Delivered</button></td>
             <td rowspan='$no_of_rows'>".$status."</td>
         </tr>";
         }
@@ -129,6 +126,54 @@
     
     ?>
     </div>
+    <br>
+    <h1 align="center">Rate & Review items that you've bought!</h1>
+    <br>
+    <br>
+    <?php
+    $user_name=$_SESSION['username'];
+    $query="select distinct(item) from orders where user_name='$user_name'";
+    $query_run=mysqli_query($con,$query);
+    while($row=mysqli_fetch_assoc($query_run))
+    {
+        $item_name=$row['item'];
+        //echo $item_name;
+        $query1="select * from items where item_name='$item_name'";
+        $query_run1=mysqli_query($con,$query1);
+        $row1=mysqli_fetch_assoc($query_run1);
+        
+        $item_image=$row1['item_image'];
+
+    echo'
+    <div class="cart-item">
+            <div class="cart-item-image">
+                <img width="150px" src="'.$item_image.'">
+            </div>
+            <div class="cart-item-name">
+                <h4>Item Name: '.$item_name.'</h4>
+                
+            </div>
+            <div class="cart-item-total">
+                <button type="button" class="btn btn-warning" onclick="rate_item('.$item_name.')">Rate & Review Item</button>
+            </div>
+
+        </div>';
+
+    }
+    ?>
+
+
+<!-- <div class="cart-item-quantity">
+                <a href="cart.php?item_id='.$item_id.'&dec=true" id="itemno-'.$item_id.'" name="cart_inc"><img style="width:15px" src="images/minus.png"></a>
+                <span>'.$item_quantity.'</span>
+                <a href="cart.php?item_id='.$item_id.'&inc=true" id="itemno-'.$item_id.'" name="cart_dec"><img style="width:15px" src="images/plus.png"></a>
+            </div>
+            <div class="cart-item-total">
+                <p>Total: '.$item_price * $item_quantity.'</p>
+            </div> -->
+
+
+
 
 
     <script>
@@ -139,6 +184,11 @@
         btn.addEventListener('click', function() {
             window.location.href = `customer_orders.php?changeStatus=true&order_id=${order_id}&status=${status}`;
         })
+    }
+
+    function rate_item(item_name) {
+        window.location.href = `customer_rating.php?item_name=${item_name}`;
+        
     }
     </script>
 </body>
