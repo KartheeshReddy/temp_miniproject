@@ -76,14 +76,15 @@
     <?php
         if(isset($_POST['review_btn']))
         {
-            $item_id=21;
-            $customer_name="abc";
+            $user_name=$_SESSION["username"];
+            $item_name=$_GET['item_name'];
+            
             $rating=$_POST['rating'];
             $review=$_POST['review'];
-            echo $item_id;//.$customer_name.$rating.$review;
-            $query="insert into rating values('$item_id','$customer_name','$rating',' $review')";
+
+            $query="insert into rating values('$item_name','$user_name','$rating',' $review')";
             $query_run=mysqli_query($con,$query);
-            header('location: temp.php');
+            header('location:customer_orders.php');
         }
     ?>
 </body>

@@ -31,6 +31,32 @@
     <?php include 'partials/_navbar.php'; ?>
 
 
+
+<!--  -->
+<!-- Modal Reviews -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reviews</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!--  -->
+
+
+
     <div class="cat-items my-3 mx-2">
 
         <?php 
@@ -55,13 +81,13 @@
                 $item_name = $row['item_name'];
                 $price = $row['item_price'];
                 $item_id = $row['item_id'];
-                $query1="select * from rating where item_id='$item_id'";
+                $query1="select avg(rating) as item_rating from rating group by item_name having item_name='$item_name' ";
                 $query_run1=mysqli_query($con,$query1);
                 $row1=mysqli_fetch_assoc($query_run1);
                 if($row1==null)
                     $rating=0;
                 else
-                    $rating=$row1['rating'];
+                    $rating=$row1['item_rating'];
             echo '
             <div class="item card mx-2 my-3" style="width: 18rem;">
                 <img src="'.$image.'" class="card-img-top" alt="...">
@@ -77,14 +103,20 @@
                 
                 if(isset($_SESSION["user_loggedin"]))
 
-                    echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>';
+                    echo'    <button style="width:60%" id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>';
                 else
                 echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn" disabled>Add to Cart</button>';
-                    echo '</div>
+                   
+                // echo '<button class="btn btn-primary mx-1" id="review-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Reviews</button>';
+                // onclick="ratingModal(id, '.$cat_id.')"
+                echo '<button id="rating-'.$item_name.'" type="button" class="btn btn-primary mx-1" data-item="'.$item_name.'" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Ratings
+              </button>';
+                echo '</div>
             </div>';
             }
             
-
+            
             ?>
 
         </div>
@@ -92,6 +124,13 @@
 
 
     <script>
+
+    // function ratingModal(item_name, cat_id) {
+    //     item_name = item_name.substr(7, item_name.length - 7);
+    //     console.log(item_name);
+    //     window.location.href = `category.php?cat_id=${cat_id}&rating_item=${item_name}`;
+    // }
+
     function add_to_cart(item_id) {
         var btn = document.getElementById("item-" + item_id);
         btn.addEventListener('click', function() {

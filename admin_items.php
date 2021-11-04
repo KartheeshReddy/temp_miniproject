@@ -65,13 +65,13 @@
                 $item_name = $row['item_name'];
                 $price = $row['item_price'];
                 $item_id = $row['item_id'];
-                $query1="select * from rating where item_id='$item_id'";
+                $query1="select avg(rating) as item_rating from rating group by item_name having item_name='$item_name' ";
                 $query_run1=mysqli_query($con,$query1);
                 $row1=mysqli_fetch_assoc($query_run1);
                 if($row1==null)
                     $rating=0;
                 else
-                    $rating=$row1['rating'];
+                    $rating=$row1['item_rating'];
 
             echo '
             <div class="item card mx-2 my-3" style="width: 18rem;">

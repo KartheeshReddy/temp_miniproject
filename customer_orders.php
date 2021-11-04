@@ -143,26 +143,40 @@
         $row1=mysqli_fetch_assoc($query_run1);
         
         $item_image=$row1['item_image'];
-
-    echo'
+    ?>
     <div class="cart-item">
             <div class="cart-item-image">
-                <img width="150px" src="'.$item_image.'">
+                <img width="150px" src="<?php echo $item_image; ?>">
             </div>
             <div class="cart-item-name">
-                <h4>Item Name: '.$item_name.'</h4>
+                <h4>Item Name: <?php echo $item_name; ?></h4>
                 
             </div>
             <div class="cart-item-total">
-                <button type="button" class="btn btn-warning" onclick="rate_item('.$item_name.')">Rate & Review Item</button>
+                <?php
+                    $query2="select * from rating where user_name='$user_name' and item_name='$item_name'";
+                    $query_run2=mysqli_query($con,$query2);
+                    $row2=mysqli_fetch_assoc($query_run2);
+                    if($row2==null)
+                    {
+                ?>
+                <button type="button" class="btn btn-warning" onclick="rate_item('<?php echo $item_name; ?>')">Rate & Review Item</button>
+                <?php
+                    }
+                    else
+                    {
+                        $rating=$row2['rating'];
+                        $review=$row2['review'];
+                        echo "Your rating: $rating<i style='color:gold' class='fas fa-star'></i> <br> Your review: $review";
+                    }
+                ?>
+            
             </div>
 
-        </div>';
-
+        </div>
+    <?php 
     }
     ?>
-
-
 <!-- <div class="cart-item-quantity">
                 <a href="cart.php?item_id='.$item_id.'&dec=true" id="itemno-'.$item_id.'" name="cart_inc"><img style="width:15px" src="images/minus.png"></a>
                 <span>'.$item_quantity.'</span>
@@ -187,6 +201,7 @@
     }
 
     function rate_item(item_name) {
+        console.log(item_name);
         window.location.href = `customer_rating.php?item_name=${item_name}`;
         
     }

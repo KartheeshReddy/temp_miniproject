@@ -17,6 +17,9 @@
 
     <!-- Font Awesome -->
     <script src="https://use.fontawesome.com/6a0c97f605.js"></script>
+    <script src="https://use.fontawesome.com/6a0c97f605.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    
 
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="index.css">
@@ -52,6 +55,13 @@
                 $item_name = $row['item_name'];
                 $price = $row['item_price'];
                 $item_id = $row['item_id'];
+                $query1="select avg(rating) as item_rating from rating group by item_name having item_name='$item_name' ";
+                $query_run1=mysqli_query($con,$query1);
+                $row1=mysqli_fetch_assoc($query_run1);
+                if($row1==null)
+                    $rating=0;
+                else
+                    $rating=$row1['item_rating'];
             echo '
             <div class="item card mx-2 my-3" style="width: 18rem;">
                 <img src="'.$image.'" class="card-img-top" alt="...">
@@ -59,14 +69,18 @@
                     <div class="item-name">
                         <h5 class="card-title">'.$item_name.'</h5>
                         <h5><i class="fa fa-inr" aria-hidden="true"></i> '.$price.'</h5>
-                    </div>';
-                    if (isset($_SESSION["username"])){
-                        echo '<button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>';
-                    }
-                    else {
-                        echo '<button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" disabled class="btn btn-secondary cart-btn">Add to Cart</button>'; 
-                    }
-                echo '</div>
+                        <span>
+                        '.$rating.'<i class="fas fa-star" style="color:gold;"></i>
+                        <span>
+                    </div>
+                    ';
+                
+                if(isset($_SESSION["user_loggedin"]))
+
+                    echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>';
+                else
+                echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn" disabled>Add to Cart</button>';
+                    echo '</div>
             </div>';
             }
             
@@ -80,7 +94,6 @@
     <script>
     function add_to_cart(item_id) {
         var btn = document.getElementById("item-" + item_id);
-
         btn.addEventListener('click', function() {
             window.location.href = `cart.php?item_id=${item_id}`;
         })

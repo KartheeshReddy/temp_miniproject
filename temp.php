@@ -70,7 +70,7 @@
         <i class="fas fa-star" id="4" onmouseover="func1(id)" onmouseout="func2(id)" onclick="func3(id)"></i>
         <i class="fas fa-star" id="5" onmouseover="func1(id)" onmouseout="func2(id)" onclick="func3(id)"></i><br>
         <textarea type="text" placeholder="Type Review Here" name="review"></textarea><br>
-        <input type="text" id="ratingField" value="0" name="rating"><br>
+        <input type="text" id="ratingField" value="0" name="rating" hidden><br>
         <input type="submit" name="review_btn" class="btn btn-primary">
     </form>
     <?php
