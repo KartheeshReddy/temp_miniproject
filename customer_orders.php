@@ -56,7 +56,7 @@
 
             echo $order_id,$status;
 
-            $query="update orders set status='$status' where order_id='$order_id'";
+            $query="update orders set status='$status' where order_id='$order_id' order by date_time desc";
             $query_run=mysqli_query($con,$query);
             header('location:customer_orders.php');
         }
@@ -106,9 +106,22 @@
             <td rowspan='$no_of_rows'>".$order_id."</td>
             <td>".$item."</td>
             <td>".$quantity."</td>
-            <td rowspan='$no_of_rows'><i class='fas fa-rupee-sign'></i>".$bill."</td>
-            <td rowspan='$no_of_rows'>".$status."</td>
-        </tr>";
+            <td rowspan='$no_of_rows'><i class='fas fa-rupee-sign'></i>".$bill."</td> ";
+            if($status=="shipped")
+            {
+                echo "<td rowspan='$no_of_rows' ><b style='color:CornflowerBlue;'>Shipped</b></td>";
+            }
+            elseif($status=="onTheWay")
+            {
+                echo "<td rowspan='$no_of_rows'><b style='color:Orchid;'>On The Way</b></td>";
+            }
+            elseif($status=="delivered")
+            {
+                echo "<td rowspan='$no_of_rows'><b style='color:green;'>Delivered</b></td>";
+            }
+            else
+                echo "<td rowspan='$no_of_rows'></td>";
+        echo "</tr>";
         }
         else 
         {

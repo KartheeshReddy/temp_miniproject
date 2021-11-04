@@ -43,8 +43,8 @@
         $query_run = mysqli_query($con, $query);
         $order_id = rand();
         $bill = $_SESSION["bill"];
-        date_default_timezone_set('Asia/Kolkata');
-$currentTime = date( 'd-m-Y h:i:s A', time () );
+//         date_default_timezone_set('Asia/Kolkata');
+// $currentTime = date( 'd-m-Y h:i:s A', time () );
 // echo $currentTime;
         while ($row = mysqli_fetch_assoc($query_run))
         {
@@ -57,7 +57,10 @@ $currentTime = date( 'd-m-Y h:i:s A', time () );
             $row2 = mysqli_fetch_assoc($query_run2);
             $item_name = $row2["item_name"];
             //$items = $items . $item_name . " " . $row["quantity"] . "\n";
-            $query3 = "insert into orders values ('$currentTime','$order_id', '$user_name', '$item_name','$quantity', '$bill','')";
+            //$query3 = "insert into orders values ('$currentTime','$order_id', '$user_name', '$item_name','$quantity', '$bill','')";
+            
+            $query3 = "insert into orders values (CURRENT_TIMESTAMP,'$order_id', '$user_name', '$item_name','$quantity', '$bill','')";
+            
             $query_run3 = mysqli_query($con, $query3);
         }
         

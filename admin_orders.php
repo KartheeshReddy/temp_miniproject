@@ -127,20 +127,26 @@
             if($status=='shipped')
             {
             ?>
-                <td rowspan=<?php echo $no_of_rows  ;?> color='cyan'><?php echo 'Shipped'; ?></td>
+                <td rowspan=<?php echo $no_of_rows  ;?> ><b style='color:CornflowerBlue;'>Shipped</b></td>
             <?php
             }
-            if($status=='onTheWay')
+            elseif($status=='onTheWay')
             {
             ?>
-                <td rowspan=<?php echo $no_of_rows  ;?> color='gray'><p color='pink'><?php echo 'On The Way'; ?></p></td>
+                <td rowspan=<?php echo $no_of_rows  ;?> ><b style='color:Orchid;'>On The Way</b></td>
             <?php
             }
-            if($status=='delivered')
+            elseif($status=='delivered')
             {
             ?>
 
-                <td rowspan=<?php echo $no_of_rows  ;?> color='lightgreen'><?php echo 'Delivered'; ?></td>
+                <td rowspan=<?php echo $no_of_rows  ;?> ><b style='color:green;'>Delivered</b></td>
+            <?php
+            }
+            else
+            {
+            ?>
+                <td rowspan=<?php echo $no_of_rows  ;?> ></td>
             <?php
             }
             ?>

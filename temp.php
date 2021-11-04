@@ -20,7 +20,7 @@
         } */
     </style>
     <!-- <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script> -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         // $(document).ready(function () {
         //     func4();
         // });
@@ -56,13 +56,13 @@
             let rating=document.getElementById("ratingField").value;
             func1(rating.toString());
         }
-    </script>
+    </script> -->
 </head>
 <body>
     <?php include 'partials/_dbconnect.php'; ?>
     <?php include 'partials/_navbar.php'; ?>
     
-    <form action="" method="POST">
+    <!-- <form action="" method="POST">
         Rating:
         <i class="fas fa-star" id="1" onmouseover="func1(id)" onmouseout="func2(id)" onclick="func3(id)"></i>
         <i class="fas fa-star" id="2" onmouseover="func1(id)" onmouseout="func2(id)" onclick="func3(id)"></i>
@@ -74,17 +74,35 @@
         <input type="submit" name="review_btn" class="btn btn-primary">
     </form>
     <?php
-        if(isset($_POST['review_btn']))
+        // if(isset($_POST['review_btn']))
         {
-            $item_id=21;
-            $customer_name="abc";
-            $rating=$_POST['rating'];
-            $review=$_POST['review'];
-            echo $item_id;//.$customer_name.$rating.$review;
-            $query="insert into rating values('$item_id','$customer_name','$rating',' $review')";
-            $query_run=mysqli_query($con,$query);
-            header('location: temp.php');
+            // $item_id=21;
+            // $customer_name="abc";
+            // $rating=$_POST['rating'];
+            // $review=$_POST['review'];
+            // echo $item_id;//.$customer_name.$rating.$review;
+            // $query="insert into rating values('$item_id','$customer_name','$rating',' $review')";
+            // $query_run=mysqli_query($con,$query);
+            // header('location: temp.php');
         }
-    ?>
+    ?> -->
+    <?php
+        $item_name="Dairy Milk Silk";
+        $query="select * from rating where item_name='$item_name'";
+        $query_run=mysqli_query($con,$query);
+
+        while($row=mysqli_fetch_assoc($query_run))
+        {
+            $user_name=$row['user_name'];
+            $rating = $row['rating'];
+            $review =$row['review'];
+
+            echo $user_name." ".$rating." ".$review;
+        }
+
+
+
+
+?>
 </body>
 </html>
