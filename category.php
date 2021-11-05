@@ -120,6 +120,7 @@
               $arr=(explode(" ",$str));
               $item_name_forid=join("_",$arr);
 
+              
               echo '<button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#modal_'.$item_name_forid.'">
               Ratings
               </button>';
@@ -153,18 +154,24 @@
                   $user_name=$row_r["user_name"];
                   $rating=$row_r["rating"];
                   $review=$row_r["review"];
-                  
+                 
+                 
+                  $str=$user_name;
+                  $arr=(explode(" ",$str));
+                  $user_name_forid=join("_",$arr);
                   ?>
+                  
                     <div style="display:flex; justify-content: space-between;border: 1px solid black;margin-bottom:1px;">
                       <div>
                         User Name: <?php echo $user_name; ?>
                       </div>
+                      
                       <div style="display:block;">
-                        <i class="fas fa-star" id="1_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
-                        <i class="fas fa-star" id="2_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
-                        <i class="fas fa-star" id="3_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
-                        <i class="fas fa-star" id="4_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
-                        <i class="fas fa-star" id="5_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i><br>
+                        <i class="fas fa-star" id="1_<?php echo $item_name_forid; ?>_<?php echo $user_name_forid;?>"></i>
+                        <i class="fas fa-star" id="2_<?php echo $item_name_forid; ?>_<?php echo $user_name_forid;?>"></i>
+                        <i class="fas fa-star" id="3_<?php echo $item_name_forid; ?>_<?php echo $user_name_forid;?>"></i>
+                        <i class="fas fa-star" id="4_<?php echo $item_name_forid; ?>_<?php echo $user_name_forid;?>"></i>
+                        <i class="fas fa-star" id="5_<?php echo $item_name_forid; ?>_<?php echo $user_name_forid;?>"></i><br>
                         <!-- <input type="text" id="ratingField_<?php //echo $user_name;?>" value=<?php //echo $rating; ?> hidden> -->
                         <!-- Rating : <?php //echo $rating; ?><i class="fas fa-star" style="color:gold;"></i> -->
                         <script>
@@ -174,7 +181,7 @@
                               // console.log(n);
                               for(let i=1;i<=n;i++)
                               {
-                                  document.getElementById(i.toString()+"_"+ "<?php echo $item_name_forid; ?>"  +"_"+"<?php echo $user_name;?>").style.color="gold";
+                                  document.getElementById(i.toString()+"_"+ "<?php echo $item_name_forid; ?>"  +"_"+"<?php echo $user_name_forid;?>").style.color="gold";
                               }  
                       </script>
                         Review : <?php echo $review; ?>
