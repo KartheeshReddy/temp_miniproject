@@ -85,7 +85,7 @@
 
 
     echo'
-    <form action="user_profile.php" method="POST">
+    <form method="POST">
     
             <h1 >Profile Settings</h4>            
             <div >Name:<input type="text"   value='.$username.' disabled></div><br>
@@ -122,9 +122,9 @@
 
         // $query2="update users set user_name='$username' where user_id='$user_id'";
         // $query_run2=mysqli_query($con,$query2);
-        echo "hello";
+        //echo "hello";
 
-    //    header('location:index.php');
+        header('location:index.php');
 
     }
 

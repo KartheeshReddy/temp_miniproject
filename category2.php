@@ -23,12 +23,39 @@
 
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="index.css">
+   
 </head>
 
 <body>
 
     <?php include 'partials/_dbconnect.php'; ?>
     <?php include 'partials/_navbar.php'; ?>
+
+
+
+<!--  -->
+<!-- Modal Reviews -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reviews</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!--  -->
+
 
 
     <div class="cat-items my-3 mx-2">
@@ -55,7 +82,7 @@
                 $item_name = $row['item_name'];
                 $price = $row['item_price'];
                 $item_id = $row['item_id'];
-                $query1="select avg(rating) as item_rating from rating group by item_name having item_name='$item_name' ";
+                $query1="select round(avg(rating),1) as item_rating from rating group by item_name having item_name='$item_name' ";
                 $query_run1=mysqli_query($con,$query1);
                 $row1=mysqli_fetch_assoc($query_run1);
                 if($row1==null)
@@ -77,14 +104,97 @@
                 
                 if(isset($_SESSION["user_loggedin"]))
 
-                    echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>';
+                    echo'    <button style="width:60%" id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn">Add to Cart</button>';
                 else
-                echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn" disabled>Add to Cart</button>';
-                    echo '</div>
+                    echo'    <button style="width:60%" id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn" disabled>Add to Cart</button>';
+                
+                //echo'    <button id="item-'.$item_id.'" onclick="add_to_cart('.$item_id.')" class="btn btn-secondary cart-btn" disabled>Add to Cart</button>';
+                   
+                // echo '<button class="btn btn-primary mx-1" id="review-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Reviews</button>';
+                // onclick="ratingModal(id, '.$cat_id.')"
+               // echo '<button  type="button" class="btn btn-primary mx-1" data-item="'.$item_name.'" data-bs-toggle="modal" data-target="#rating_modal_'.$item_name.'">
+                //Ratings
+              //</button>';
+
+              echo '<button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#modal_'.$item_name.'">
+              Ratings
+              </button>';
+              
+              echo '</div>
             </div>';
+            ?>
+        
+           <!-- Modal -->
+          <div class="modal fade" id="modal_<?php echo $item_name; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ratings and Reviews for <b><?php echo $item_name; ?></b></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <?php 
+                $query_r="select * from rating where item_name='".$item_name."'";
+                $query_run_r=mysqli_query($con,$query_r);
+                
+                $ratings_found=false;
+                while($row_r=mysqli_fetch_assoc($query_run_r))
+                {
+                  
+                  $ratings_found=true;
+                  $user_name=$row_r["user_name"];
+                  $rating=$row_r["rating"];
+                  $review=$row_r["review"];
+                  
+                  ?>
+                    <div style="display:flex; justify-content: space-between;border: 1px solid black;margin-bottom:1px;">
+                      <div>
+                        User Name: <?php echo $user_name; ?>
+                      </div>
+                      <div style="display:block;">
+                        <i class="fas fa-star" id="1_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="2_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="3_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="4_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="5_<?php echo $user_name;?>"></i><br>
+                        <input type="text" id="ratingField_<?php echo $user_name;?>" value=<?php echo $rating; ?> hidden>
+                        <!-- Rating : <?php //echo $rating; ?><i class="fas fa-star" style="color:gold;"></i> -->
+                        <script>
+                              let n=parseInt(document.getElementById("ratingField_<?php echo $user_name;?>").value);
+                              console.log(n);
+                              for(let i=1;i<=n;i++)
+                              {
+                                  document.getElementById(i.toString()+"_"+"<?php echo $user_name;?>").style.color="gold";
+                              }  
+                      </script>
+                        Review : <?php echo $review; ?>
+                      </div>
+                    </div>
+                  <?php
+                }
+                if($ratings_found==false)
+                {
+                  ?>
+                    <div>
+                      <center>No ratings and reviews yet!</center>
+                    </div>
+
+                  <?php
+
+                }
+              ?>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+            </div>
+          </div>
+          </div>
+            <?php
             }
             
-
+            
             ?>
 
         </div>
@@ -92,6 +202,13 @@
 
 
     <script>
+
+    // function ratingModal(item_name, cat_id) {
+    //     item_name = item_name.substr(7, item_name.length - 7);
+    //     console.log(item_name);
+    //     window.location.href = `category.php?cat_id=${cat_id}&rating_item=${item_name}`;
+    // }
+
     function add_to_cart(item_id) {
         var btn = document.getElementById("item-" + item_id);
         btn.addEventListener('click', function() {
@@ -105,6 +222,8 @@
         echo '<script>alert("Your item has been added")</script>';
     }
     ?>
+
+
 
     <!-- Bootstrap Bundle with popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"

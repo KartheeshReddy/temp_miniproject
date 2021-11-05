@@ -23,6 +23,7 @@
 
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="index.css">
+   <script>let n;</script>
 </head>
 
 <body>
@@ -115,16 +116,23 @@
                 //Ratings
               //</button>';
 
-              echo '<button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#modal_'.$item_name.'">
+              $str = $item_name;
+              $arr=(explode(" ",$str));
+              $item_name_forid=join("_",$arr);
+
+              echo '<button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#modal_'.$item_name_forid.'">
               Ratings
               </button>';
               
               echo '</div>
             </div>';
+
+
+           
             ?>
-        
+          
            <!-- Modal -->
-          <div class="modal fade" id="modal_<?php echo $item_name; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="modal_<?php echo $item_name_forid; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
@@ -133,7 +141,8 @@
             </div>
             <div class="modal-body">
               <?php 
-                $query_r="select * from rating where item_name='".$item_name."'";
+                
+                $query_r="select * from rating where item_name='$item_name'";
                 $query_run_r=mysqli_query($con,$query_r);
                 
                 $ratings_found=false;
@@ -144,14 +153,30 @@
                   $user_name=$row_r["user_name"];
                   $rating=$row_r["rating"];
                   $review=$row_r["review"];
-                  //echo "<script>alert('.$review.')</script>";
+                  
                   ?>
-                    <div style="display:flex; justify-content: space-between;border: 1px solid black">
+                    <div style="display:flex; justify-content: space-between;border: 1px solid black;margin-bottom:1px;">
                       <div>
                         User Name: <?php echo $user_name; ?>
                       </div>
                       <div style="display:block;">
-                        Rating : <?php echo $rating; ?><i class="fas fa-star" style="color:gold;"></i>
+                        <i class="fas fa-star" id="1_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="2_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="3_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="4_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i>
+                        <i class="fas fa-star" id="5_<?php echo $item_name_forid; ?>_<?php echo $user_name;?>"></i><br>
+                        <!-- <input type="text" id="ratingField_<?php //echo $user_name;?>" value=<?php //echo $rating; ?> hidden> -->
+                        <!-- Rating : <?php //echo $rating; ?><i class="fas fa-star" style="color:gold;"></i> -->
+                        <script>
+                              //let n=parseInt(document.getElementById("ratingField_<?php //echo $user_name;?>").value);
+                              
+                              n=<?php echo $rating; ?>;
+                              // console.log(n);
+                              for(let i=1;i<=n;i++)
+                              {
+                                  document.getElementById(i.toString()+"_"+ "<?php echo $item_name_forid; ?>"  +"_"+"<?php echo $user_name;?>").style.color="gold";
+                              }  
+                      </script>
                         Review : <?php echo $review; ?>
                       </div>
                     </div>
@@ -207,6 +232,8 @@
         echo '<script>alert("Your item has been added")</script>';
     }
     ?>
+
+
 
     <!-- Bootstrap Bundle with popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
