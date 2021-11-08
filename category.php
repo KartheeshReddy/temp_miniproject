@@ -23,7 +23,21 @@
 
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="index.css">
-   <script>let n;</script>
+   <script>
+        let n;
+        //var randomColor = Math.floor(Math.random()*16777215).toString(16);    
+    </script>
+   <style>
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #86075a;
+  color:white;
+  text-align: center;
+  border-radius: 50%;
+  display: inline-block;
+}
+</style>
 </head>
 
 <body>
@@ -140,7 +154,94 @@
               <h5 class="modal-title" id="exampleModalLabel">Ratings and Reviews for <b><?php echo $item_name; ?></b></h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
+
+              <!-- overall rating -->
+              <div style="display:flex; justify-content:space-between;">
+              <div style="text-align:center;">
+                <?php
+                $query_count="select count(*) as cnt from rating where item_name='$item_name' ";
+                $query_run_count=mysqli_query($con,$query_count);
+                $row_count=mysqli_fetch_assoc($query_run_count);
+                
+               $rating_count=$row_count['cnt'];
+                  echo "<p>Based on $rating_count ratings<br>";
+                  echo "Overall rating";
+                  echo "<h1>$rating</h1>";
+                ?>
+
+              </div>
+              <div>
+              
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <?php
+                  $query_5r="select count(*) as cnt from rating where item_name='$item_name' and rating=5";
+                  $query_run_5r=mysqli_query($con,$query_5r);
+                  $row_5r=mysqli_fetch_assoc($query_run_5r);
+                  $no_of_5r=$row_5r['cnt'];
+              ?>
+                  <span style="float:right;"><?php echo $no_of_5r; ?></span>
+              <!-- <div> -->
+              <br>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              
+              <?php
+                  $query_4r="select count(*) as cnt from rating where item_name='$item_name' and rating=4";
+                  $query_run_4r=mysqli_query($con,$query_4r);
+                  $row_4r=mysqli_fetch_assoc($query_run_4r);
+                  $no_of_4r=$row_4r['cnt'];
+                ?>
+                  <span style="float:right;"><?php echo $no_of_4r; ?></span>
+              
+              <br>
+
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              
+              <?php
+                  $query_3r="select count(*) as cnt from rating where item_name='$item_name' and rating=3";
+                  $query_run_3r=mysqli_query($con,$query_3r);
+                  $row_3r=mysqli_fetch_assoc($query_run_3r);
+                  $no_of_3r=$row_3r['cnt'];
+              ?>
+              <span style="float:right;"><?php echo $no_of_3r; ?></span>
+              <br>
+
+              <i class="fas fa-star" style="color:gold;"></i>
+              <i class="fas fa-star" style="color:gold;"></i>
+              
+              <?php
+                  $query_2r="select count(*) as cnt from rating where item_name='$item_name' and rating=2";
+                  $query_run_2r=mysqli_query($con,$query_2r);
+                  $row_2r=mysqli_fetch_assoc($query_run_2r);
+                  $no_of_2r=$row_2r['cnt'];
+              ?>
+              <span style="float:right;"><?php echo $no_of_2r; ?></span>
+              <br>
+
+              <i class="fas fa-star" style="color:gold;"></i>
+
+
+              <?php
+                  $query_1r="select count(*) as cnt from rating where item_name='$item_name' and rating=1";
+                  $query_run_1r=mysqli_query($con,$query_1r);
+                  $row_1r=mysqli_fetch_assoc($query_run_1r);
+                  $no_of_1r=$row_1r['cnt'];
+              ?>
+              <span style="float:right;"><?php echo $no_of_1r; ?></span>
+              <br>
+              </div>
+              </div>
+              <!-- reviews and ratings of customers -->
               <?php 
                 
                 $query_r="select * from rating where item_name='$item_name'";
@@ -163,7 +264,7 @@
                   
                     <div style="display:flex; justify-content: space-between;border: 1px solid black;margin-bottom:1px;">
                       <div>
-                        User Name: <?php echo $user_name; ?>
+                        <span class="dot" style="color: <script>Math.floor(Math.random()*16777215).toString(16);</script>;"><b><?php echo $user_name_forid[0]; ?></b></span> <?php echo $user_name; ?>
                       </div>
                       
                       <div style="display:block;">
