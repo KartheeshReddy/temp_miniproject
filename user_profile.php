@@ -1,3 +1,11 @@
+<?php
+
+    // if(!isset($_SESSION["user_loggedin"]))
+    // {
+    //     header("location:login.php");
+    // }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +43,6 @@
 
 
     <?php
-        
         $user_id=$_SESSION["user_id"];
         $username=$_SESSION["username"];
         $email=$_SESSION["email"];
@@ -109,34 +116,28 @@
 <?php
     if(isset($_POST['submit_btn']))
     {
-        
-        
         $user_id=$_SESSION["user_id"];
         //$username=$_POST['username'];
         $phone=$_POST['phone'];
         $address=$_POST['address'];
         
-        echo $user_id." ".$username." ".$phone." ".$address;
+        //echo $user_id." ".$username." ".$phone." ".$address;
         $query="update user_details set user_phone='$phone',address='$address' where user_id='$user_id'";
         $query_run=mysqli_query($con,$query);
 
-        // $query2="update users set user_name='$username' where user_id='$user_id'";
-        // $query_run2=mysqli_query($con,$query2);
-        //echo "hello";
-
-        header('location:index.php');
-
+        ?>
+        <script>window.location.href="index.php";</script>
+        <?php
     }
-
 ?>
 
     <!-- Bootstrap Bundle with popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-        </script>
+        </script> -->
 
 
-
+<?php include 'partials/scripts.php'; ?>
 </body>
 
 </html>
