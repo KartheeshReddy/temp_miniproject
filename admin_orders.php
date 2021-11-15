@@ -1,3 +1,11 @@
+<?php
+
+    // if(!isset($_SESSION["admin_loggedin"]))
+    // {
+    //     header("location:login.php");
+    // }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,7 +70,7 @@
         }
     ?>
 
-    <center><h1>Your Orders</h1></center>
+    <center><h1>Customer Orders</h1></center>
     <div id="orders-table">
     <table align="center">
     <tr>
@@ -72,7 +80,7 @@
         <th>Item</th>
         <th>Quantity</th>
         <th>Total Bill</th>
-        <th colspan='3'>Keep status<th>
+        <th colspan='3'>Keep status</th>
         <th>Status</th>
     </tr>
     <?php
@@ -102,15 +110,15 @@
         $query_run1=mysqli_query($con,$query1);
         $row1=mysqli_fetch_assoc($query_run1);
         $no_of_rows=$row1['cnt'];
-
-
-        
+        ?>
+        <tr>
+        <?php
         if (!isset($orders_array[$order_id]))
         {
             $orders_array[$order_id] = 1;
             ?>
              
-            <tr>
+            
             <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $user_name; ?></td>
             <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $currentTime; ?></td>
             <td rowspan=<?php echo $no_of_rows  ;?>><?php echo $order_id ;?></td>
@@ -149,29 +157,24 @@
                 <td rowspan=<?php echo $no_of_rows  ;?> ></td>
             <?php
             }
-            ?>
-            
-            <!-- <td rowspan=<?php //echo $no_of_rows  ;?>><?php //echo $status ?></td> -->
-            </tr>
-        <?php
+           
         }
         else 
         {
         ?>
-            <tr>
+            
             <td><?php echo  $item ; ?></td>
             <td><?php echo  $quantity ;?></td>
-            </tr>
+            
         <?php 
 
         }
-        // echo "<tr><td >".$currentTime."</td><td>".$order_id."</td><td>".$item."</td><td>".$quantity."</td><td>".$bill."</td></tr>";
         
     
     }
     
     ?>
-
+    </tr>
     
     </table>
     </div>
@@ -189,6 +192,7 @@
         })
     }
     </script>
+    <?php include 'partials/scripts.php'; ?>
 </body>
 
 </html>

@@ -39,28 +39,55 @@
             </h1>
             <input type="email" placeholder="Email" name="email" id=""><br>
             <input type="password" placeholder="Password" name="password"><br>
+            <select name="role" id="" style="width:59%">
+                <option name="role" disabled selected>Select a role</option>
+                <option value="admin" name="role">Admin</option>
+                <option value="user" name="role" >User</option>
+            </select><br><br>
             <input type="submit" name='submit_btn' class="btn btn-dark">
         </fieldset>
     </form>
 
     <?php
     if (isset($_POST['submit_btn'])) {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+        $role=$_POST['role'];
+        if($role=="user")
+        {
+            $email = $_POST["email"];
+            $password = $_POST["password"];
 
-        $query = "select * from users where user_email = '$email' and user_pwd = '$password'";
-        $query_run = mysqli_query($con, $query);
-        $row = mysqli_fetch_assoc($query_run);
+            $query = "select * from users where user_email = '$email' and user_pwd = '$password'";
+            $query_run = mysqli_query($con, $query);
+            $row = mysqli_fetch_assoc($query_run);
 
-        if ($row!=NULL) {
-            $_SESSION["user_id"] = $row["user_id"];
-            $_SESSION["username"] = $row["user_name"];
-            $_SESSION["email"]=$row["user_email"];
-            $_SESSION["user_loggedin"] = true;
-            header('location:index.php');
-            exit();
-        } else {
-            echo "<script>alert('Invalid Credentials!')</script>";
+            if ($row!=NULL) {
+                $_SESSION["user_id"] = $row["user_id"];
+                $_SESSION["username"] = $row["user_name"];
+                $_SESSION["email"]=$row["user_email"];
+                $_SESSION["user_loggedin"] = true;
+                header('location:index.php');
+                exit();
+            } else {
+                echo "<script>alert('Invalid Credentials!')</script>";
+            }
+        }
+        else
+        {
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+
+            $query = "select * from admin where admin_email = '$email' and admin_pwd = '$password'";
+            $query_run = mysqli_query($con, $query);
+            $row = mysqli_fetch_assoc($query_run);
+
+            if ($row!=NULL) {
+                $_SESSION['admin_email']=$email;
+                $_SESSION["admin_loggedin"] = true;
+                header('location:admin_index.php');
+                exit();
+            } else {
+                echo "<script>alert('Invalid Credentials!')</script>";
+            }
         }
     }
     ?>

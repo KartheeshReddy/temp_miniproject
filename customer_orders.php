@@ -1,3 +1,11 @@
+<?php
+
+    // if(!isset($_SESSION["user_loggedin"]))
+    // {
+    //     header("location:login.php");
+    // }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -219,6 +227,7 @@
         
     }
     </script>
+    <?php include 'partials/scripts.php'; ?>
 </body>
 
 </html>
